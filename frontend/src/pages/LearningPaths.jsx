@@ -6,7 +6,7 @@ export default function LearningPaths() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/learning-paths")
+    fetch(import.meta.env.VITE_API_URL + "/api/learning-paths")
       .then(res => res.json())
       .then(data => {
         setPaths(data);

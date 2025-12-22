@@ -15,7 +15,7 @@ export default function Counseling() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/api/counseling/book", {
+    await fetch(import.meta.env.VITE_API_URL + "/api/counseling/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

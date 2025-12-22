@@ -5,7 +5,7 @@ export default function AdminCounseling() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/counseling/all")
+    fetch(import.meta.env.VITE_API_URL + "/api/counseling/all")
       .then((res) => res.json())
       .then((result) => {
         setData(result);
