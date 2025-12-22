@@ -3,20 +3,31 @@ import { useEffect, useState } from "react";
 export default function AdminCounseling() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_URL = import.meta.env.VITE_API_URL || window.location.origin;
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/api/counseling/all")
-      .then((res) => res.json())
+    const endpoint = `${API_URL}/api/counseling/all`;
+    fetch(endpoint)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then((result) => {
         setData(result);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
-  }, []);
+      .catch((err) => {
+        console.error("Failed to load counseling data:", err);
+        setError(err.message || "Failed to load data");
+        setLoading(false);
+      });
+  }, [API_URL]);
 
-  if (loading) {
-    return <div className="container">Loading counseling requests...</div>;
-  }
+  if (loading) return <div className="container">Loading counseling requests...</div>;
+
+  if (error) return <div className="container">Error loading data: {error}</div>;
 
   return (
     <div className="container">
