@@ -5,10 +5,11 @@ export default function AdminCounseling() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || window.location.origin;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const endpoint = `${API_URL}/api/counseling/all`;
+
     fetch(endpoint)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -23,10 +24,9 @@ export default function AdminCounseling() {
         setError(err.message || "Failed to load data");
         setLoading(false);
       });
-  }, [API_URL]);
+  }, []);
 
   if (loading) return <div className="container">Loading counseling requests...</div>;
-
   if (error) return <div className="container">Error loading data: {error}</div>;
 
   return (
@@ -36,16 +36,13 @@ export default function AdminCounseling() {
       {data.length === 0 && <p>No requests yet.</p>}
 
       {data.map((item) => (
-        <div
-          key={item._id}
-          style={{
-            background: "#fff",
-            padding: "16px",
-            borderRadius: "8px",
-            marginBottom: "15px",
-            boxShadow: "0 5px 15px rgba(0,0,0,0.05)",
-          }}
-        >
+        <div key={item._id} style={{
+          background: "#fff",
+          padding: "16px",
+          borderRadius: "8px",
+          marginBottom: "15px",
+          boxShadow: "0 5px 15px rgba(0,0,0,0.05)",
+        }}>
           <strong>{item.name}</strong> ({item.email})<br />
           <strong>Goal:</strong> {item.goal}<br />
           {item.message && (
