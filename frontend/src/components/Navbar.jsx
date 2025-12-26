@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
 import logo from "/logo.png";
+import { removeToken } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
+
+const logout = () => {
+  removeToken();
+  navigate("/admin/login");
+};
 
 export default function Navbar() {
   return (

@@ -1,15 +1,16 @@
 const express = require("express");
-const router = express.Router();
-const { validateCounseling } = require("../middleware/validate");
-
-
-
 const {
   bookCounseling,
-  getAllCounseling
+  getAllCounseling,
 } = require("../controllers/counselingController");
 
-router.post("/book", validateCounseling, bookCounseling);
-router.get("/all", getAllCounseling);
+const auth = require("../middleware/authMiddleware");
+
+const router = express.Router();
+
+router.post("/", bookCounseling);
+
+// 🔐 ADMIN ONLY
+router.get("/all", auth, getAllCounseling);
 
 module.exports = router;
